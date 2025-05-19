@@ -1,25 +1,25 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.api.v1.api import api_router
 from app.db.database import engine, Base
-import os
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="CRUD API")
 
-# Enable CORS
+# Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # In production, replace with your frontend URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Mount static files
+# Mount static files directory
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 # Mount frontend static files
@@ -32,4 +32,5 @@ app.include_router(api_router, prefix="/api/v1")
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000) 
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True) 
