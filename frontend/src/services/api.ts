@@ -1,6 +1,8 @@
 import { Item, ItemFormData } from '../types';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
+// Use the base URL from environment variables, fallback to localhost for development
+const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:8000';
+const API_URL = `${BASE_URL}/api/v1`;
 
 export const api = {
     getItems: async (): Promise<Item[]> => {
