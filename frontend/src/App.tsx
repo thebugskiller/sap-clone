@@ -17,6 +17,7 @@ import { Item, ItemFormData } from './types';
 import { api } from './services/api';
 
 function App() {
+  const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:8000';
   const [items, setItems] = useState<Item[]>([]);
   const [open, setOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<Item | null>(null);
@@ -135,7 +136,7 @@ function App() {
               {item.image_path && (
                 <Box
                   component="img"
-                  src={`http://localhost:8000/uploads/${item.image_path.split('/').pop()}`}
+                  src={`${BASE_URL}/uploads/${item.image_path.split('/').pop()}`}
                   alt={item.name}
                   sx={{
                     width: '100%',
